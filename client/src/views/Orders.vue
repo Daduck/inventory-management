@@ -1,9 +1,13 @@
 <template>
-  <div class="orders">
-    <div class="page-header">
-      <h2>{{ t('orders.title') }}</h2>
-      <p>{{ t('orders.description') }}</p>
-    </div>
+  <div class="page">
+    <header class="page-header">
+      <div>
+        <h1>{{ t('orders.title') }}</h1>
+        <p class="page-subtitle">{{ t('orders.description') }}</p>
+      </div>
+      <div class="page-actions"></div>
+    </header>
+    <div class="page-body">
 
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -74,6 +78,7 @@
           </table>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>

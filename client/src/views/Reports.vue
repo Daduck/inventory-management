@@ -1,9 +1,13 @@
 <template>
-  <div class="reports">
-    <div class="page-header">
-      <h2>Performance Reports</h2>
-      <p>View quarterly performance metrics and monthly trends</p>
-    </div>
+  <div class="page">
+    <header class="page-header">
+      <div>
+        <h1>Performance Reports</h1>
+        <p class="page-subtitle">View quarterly performance metrics and monthly trends</p>
+      </div>
+      <div class="page-actions"></div>
+    </header>
+    <div class="page-body">
 
     <div v-if="loading" class="loading">Loading reports...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -120,6 +124,7 @@
           <div class="stat-value">{{ bestQuarter }}</div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -317,10 +322,6 @@ export default {
 </script>
 
 <style scoped>
-.reports {
-  padding: 0;
-}
-
 .card {
   background: white;
   border-radius: 12px;
