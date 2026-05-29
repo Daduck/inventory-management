@@ -1,6 +1,17 @@
 <template>
   <div class="app">
-    <aside class="sidebar">
+    <aside class="sidebar" :class="{ 'is-collapsed': isCollapsed }">
+      <button
+        class="sidebar-toggle"
+        :class="{ flipped: isCollapsed }"
+        :aria-label="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+        @click="toggleSidebar"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
       <div class="sidebar-brand">
         <div class="brand-mark">FI</div>
         <div class="brand-text">
@@ -10,27 +21,27 @@
       </div>
 
       <nav class="sidebar-nav">
-        <router-link to="/" :class="{ active: $route.path === '/' }">
+        <router-link to="/" :class="{ active: $route.path === '/' }" :data-label="t('nav.overview')">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
           <span>{{ t('nav.overview') }}</span>
         </router-link>
-        <router-link to="/inventory" :class="{ active: $route.path === '/inventory' }">
+        <router-link to="/inventory" :class="{ active: $route.path === '/inventory' }" :data-label="t('nav.inventory')">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           <span>{{ t('nav.inventory') }}</span>
         </router-link>
-        <router-link to="/orders" :class="{ active: $route.path === '/orders' }">
+        <router-link to="/orders" :class="{ active: $route.path === '/orders' }" :data-label="t('nav.orders')">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span>{{ t('nav.orders') }}</span>
         </router-link>
-        <router-link to="/spending" :class="{ active: $route.path === '/spending' }">
+        <router-link to="/spending" :class="{ active: $route.path === '/spending' }" :data-label="t('nav.finance')">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <span>{{ t('nav.finance') }}</span>
         </router-link>
-        <router-link to="/demand" :class="{ active: $route.path === '/demand' }">
+        <router-link to="/demand" :class="{ active: $route.path === '/demand' }" :data-label="t('nav.demandForecast')">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
           <span>{{ t('nav.demandForecast') }}</span>
         </router-link>
-        <router-link to="/reports" :class="{ active: $route.path === '/reports' }">
+        <router-link to="/reports" :class="{ active: $route.path === '/reports' }" data-label="Reports">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           <span>Reports</span>
         </router-link>
@@ -45,7 +56,7 @@
       </div>
     </aside>
 
-    <div class="layout-main">
+    <div class="layout-main" :class="{ 'is-collapsed': isCollapsed }">
       <div class="subheader">
         <FilterBar />
       </div>
@@ -94,6 +105,11 @@ export default {
     const { t } = useI18n()
     const showProfileDetails = ref(false)
     const showTasks = ref(false)
+    const isCollapsed = ref(localStorage.getItem('sidebar-collapsed') === 'true')
+    const toggleSidebar = () => {
+      isCollapsed.value = !isCollapsed.value
+      localStorage.setItem('sidebar-collapsed', String(isCollapsed.value))
+    }
     const apiTasks = ref([])
 
     // Merge mock tasks from currentUser with API tasks
@@ -170,7 +186,9 @@ export default {
       tasks,
       addTask,
       deleteTask,
-      toggleTask
+      toggleTask,
+      isCollapsed,
+      toggleSidebar
     }
   }
 }
@@ -258,6 +276,7 @@ body {
   flex-direction: column;
   padding: var(--space-5) var(--space-3);
   z-index: 50;
+  transition: width 0.2s ease;
 }
 
 .sidebar-brand {
@@ -324,6 +343,7 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  transition: margin-left 0.2s ease;
 }
 
 .subheader {
@@ -339,6 +359,105 @@ body {
   padding: var(--space-5) var(--space-6) var(--space-7);
   max-width: 1400px;
   width: 100%;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: absolute;
+  top: 24px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  z-index: 60;
+  transition: background 0.15s;
+  padding: 0;
+}
+
+.sidebar-toggle:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.sidebar-toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-toggle.flipped svg {
+  transform: rotate(180deg);
+}
+
+/* User-toggled collapsed state */
+.sidebar.is-collapsed {
+  width: var(--sidebar-collapsed);
+  padding: var(--space-4) var(--space-2);
+}
+
+.sidebar.is-collapsed .brand-text,
+.sidebar.is-collapsed .sidebar-nav a span {
+  display: none;
+}
+
+.sidebar.is-collapsed .sidebar-brand {
+  justify-content: center;
+  padding: 0 0 var(--space-5);
+}
+
+.sidebar.is-collapsed .sidebar-nav a {
+  justify-content: center;
+  padding: var(--space-3) 0;
+}
+
+.sidebar.is-collapsed .sidebar-footer {
+  gap: var(--space-1);
+}
+
+.sidebar.is-collapsed .sidebar-footer .language-label,
+.sidebar.is-collapsed .sidebar-footer .chevron,
+.sidebar.is-collapsed .sidebar-footer .profile-name,
+.sidebar.is-collapsed .sidebar-footer .profile-button .chevron {
+  display: none;
+}
+
+.layout-main.is-collapsed {
+  margin-left: var(--sidebar-collapsed);
+}
+
+/* CSS-only tooltips for collapsed nav items */
+.sidebar.is-collapsed .sidebar-nav a {
+  position: relative;
+}
+
+.sidebar.is-collapsed .sidebar-nav a::after {
+  content: attr(data-label);
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--ink);
+  color: white;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.sidebar.is-collapsed .sidebar-nav a:hover::after {
+  opacity: 1;
 }
 
 /* Responsive collapse */
