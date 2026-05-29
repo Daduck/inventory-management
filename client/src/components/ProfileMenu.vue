@@ -118,29 +118,33 @@ const handleLogout = () => {
 <style scoped>
 .profile-menu {
   position: relative;
+  width: 100%;
 }
 
 .profile-button {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.5rem 0.875rem;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  gap: var(--space-2);
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--sidebar-hover);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease;
   font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--sidebar-ink);
 }
 
 .profile-button:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: #283548;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   color: white;
@@ -148,19 +152,26 @@ const handleLogout = () => {
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.025em;
+  flex-shrink: 0;
 }
 
 .profile-name {
-  font-size: 0.875rem;
+  flex: 1;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: #0f172a;
+  color: var(--sidebar-ink);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chevron {
-  color: #64748b;
+  color: var(--sidebar-muted);
   transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
 .chevron-open {
@@ -169,28 +180,30 @@ const handleLogout = () => {
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  bottom: 100%;
+  left: 0;
   right: 0;
-  min-width: 280px;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  min-width: 240px;
+  margin-bottom: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 200;
   overflow: hidden;
 }
 
 .dropdown-header {
-  padding: 1rem;
+  padding: var(--space-3) var(--space-4);
   display: flex;
-  gap: 0.875rem;
+  gap: var(--space-3);
   align-items: center;
   background: #f8fafc;
 }
 
 .avatar-large {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   color: white;
@@ -198,7 +211,7 @@ const handleLogout = () => {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   letter-spacing: 0.025em;
   flex-shrink: 0;
 }
@@ -210,14 +223,14 @@ const handleLogout = () => {
 
 .user-name {
   font-weight: 600;
-  color: #0f172a;
-  font-size: 0.938rem;
-  margin-bottom: 0.25rem;
+  color: var(--ink);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
 }
 
 .user-email {
-  font-size: 0.813rem;
-  color: #64748b;
+  font-size: 0.8rem;
+  color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -225,16 +238,16 @@ const handleLogout = () => {
 
 .dropdown-divider {
   height: 1px;
-  background: #e2e8f0;
-  margin: 0.5rem 0;
+  background: var(--line);
+  margin: var(--space-1) 0;
 }
 
 .dropdown-item {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   background: none;
   border: none;
   text-align: left;
@@ -243,15 +256,15 @@ const handleLogout = () => {
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #334155;
+  color: var(--ink);
 }
 
 .dropdown-item:hover {
-  background: #f8fafc;
+  background: var(--accent-soft);
 }
 
 .dropdown-item svg {
-  color: #64748b;
+  color: var(--muted);
   flex-shrink: 0;
 }
 
@@ -269,11 +282,11 @@ const handleLogout = () => {
 
 .task-badge {
   margin-left: auto;
-  background: #2563eb;
+  background: var(--accent);
   color: white;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.125rem 0.5rem;
+  padding: 2px 8px;
   border-radius: 12px;
   min-width: 20px;
   text-align: center;

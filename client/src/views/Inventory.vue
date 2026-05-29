@@ -1,9 +1,13 @@
 <template>
-  <div class="inventory">
-    <div class="page-header">
-      <h2>{{ t('inventory.title') }}</h2>
-      <p>{{ t('inventory.description') }}</p>
-    </div>
+  <div class="page">
+    <header class="page-header">
+      <div>
+        <h1>{{ t('inventory.title') }}</h1>
+        <p class="page-subtitle">{{ t('inventory.description') }}</p>
+      </div>
+      <div class="page-actions"></div>
+    </header>
+    <div class="page-body">
 
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -80,6 +84,7 @@
       :inventory-item="selectedItem"
       @close="showItemModal = false"
     />
+    </div>
   </div>
 </template>
 
@@ -225,19 +230,6 @@ export default {
 </script>
 
 <style scoped>
-.page-header {
-  margin-bottom: 1.5rem;
-}
-
-.page-header h2 {
-  margin-bottom: 0.25rem;
-}
-
-.page-header p {
-  color: #64748b;
-  font-size: 0.875rem;
-}
-
 .card-header {
   display: flex;
   justify-content: space-between;

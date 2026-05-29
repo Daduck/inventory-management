@@ -1,8 +1,12 @@
 <template>
-  <div class="dashboard">
-    <div class="page-header">
-      <h2>{{ t('dashboard.title') }}</h2>
-    </div>
+  <div class="page">
+    <header class="page-header">
+      <div>
+        <h1>{{ t('dashboard.title') }}</h1>
+      </div>
+      <div class="page-actions"></div>
+    </header>
+    <div class="page-body">
 
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -293,6 +297,7 @@
       @close="showPOModal = false"
       @po-created="handlePOCreated"
     />
+    </div>
   </div>
 </template>
 
@@ -727,13 +732,6 @@ export default {
 </script>
 
 <style scoped>
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
 .header-meta {
   font-size: 0.813rem;
   color: #64748b;

@@ -1,9 +1,13 @@
 <template>
-  <div class="spending">
-    <div class="page-header">
-      <h2>{{ t('finance.title') }}</h2>
-      <p>{{ t('finance.description') }}</p>
-    </div>
+  <div class="page">
+    <header class="page-header">
+      <div>
+        <h1>{{ t('finance.title') }}</h1>
+        <p class="page-subtitle">{{ t('finance.description') }}</p>
+      </div>
+      <div class="page-actions"></div>
+    </header>
+    <div class="page-body">
 
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -168,6 +172,7 @@
       :cost-data="selectedCostData"
       @close="showCostModal = false"
     />
+    </div>
   </div>
 </template>
 
